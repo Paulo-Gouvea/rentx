@@ -20,12 +20,14 @@ import {
  Period,
  Price,
  Accessories,
- About
+ About,
+ Footer
 } from './styles';
 
 import { BackButton } from '../../components/BackButton';
 import { ImageSlider } from '../../components/ImageSlider';
 import { Accessory } from '../../components/Accessory';
+import { Button } from '../../components/Button';
 
 export function CarDetails(){
    return (
@@ -84,6 +86,10 @@ export function CarDetails(){
                 Este é um autómovel desportivo. Surgiu do lendário touro de lide indultado na praça Real Maestranza de Sevilla. É um belíssimo carro para quem gosta de acelerar.
             </About>
         </Content>
+
+        <Footer>
+            <Button title="Confirmar"/>
+        </Footer>
 
     </Container>
    );
