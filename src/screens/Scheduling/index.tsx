@@ -1,4 +1,8 @@
 import React from 'react';
+import { useNavigation } from '@react-navigation/native'
+
+import { NavigationProps } from '../Home';
+
 import { StatusBar } from 'react-native';
 import {
  Container,
@@ -20,9 +24,16 @@ import ArrowSvg from '../../assets/arrow.svg';
 
 import { useTheme } from 'styled-components';
 
+interface SchedulingProps extends NavigationProps {}
 
-export function Scheduling(){
+export function Scheduling({navigation}: SchedulingProps){
+    navigation = useNavigation();
     const theme = useTheme();
+
+    function HandleSchedulingDetails() {
+        navigation.navigate('SchedulingDetails');
+    }
+
    return (
     <Container>
         <Header>
@@ -69,7 +80,10 @@ export function Scheduling(){
         </Content>
 
         <Footer>
-            <Button title="Confirmar"/>
+            <Button 
+                title="Confirmar"
+                onPress={HandleSchedulingDetails}
+            />
         </Footer>
     </Container>
    );

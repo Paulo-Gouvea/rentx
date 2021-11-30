@@ -1,5 +1,9 @@
 import React from 'react';
-import { useWindowDimensions } from 'react-native';
+import { useNavigation } from '@react-navigation/native'
+
+import { NavigationProps } from '../Home';
+
+import { useWindowDimensions, StatusBar } from 'react-native';
 
 import LogoSvg from '../../assets/logo_background_gray.svg';
 import DoneSvg from '../../assets/done.svg';
@@ -14,11 +18,23 @@ import {
  Footer,
 } from './styles';
 
-export function SchedulingComplete(){
+interface SchedulingCompleteProps extends NavigationProps {}
+
+export function SchedulingComplete({navigation}: SchedulingCompleteProps){
     const { width } = useWindowDimensions();
+    navigation = useNavigation();
+
+    function handleHome() {
+        navigation.navigate('Home');
+    }
 
    return (
     <Container>
+        <StatusBar
+            translucent
+            barStyle='light-content'
+            backgroundColor='transparent'
+        />
         <LogoSvg width={width} />
 
         <Content>
@@ -35,6 +51,7 @@ export function SchedulingComplete(){
         <Footer>
             <ConfirmButton
                 title="OK"
+                onPress={handleHome}
             />
         </Footer>
 
