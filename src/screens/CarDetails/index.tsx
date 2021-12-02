@@ -41,10 +41,14 @@ export function CarDetails({ navigation }: CarDetailsProps){
         navigation.navigate('Scheduling');
     }
 
+    function handleBack() {
+        navigation.goBack();
+    }
+
    return (
     <Container>
         <Header>
-            <BackButton onPress={() => {}} />
+            <BackButton onPress={handleBack} />
         </Header>
 
         <CarImages>
