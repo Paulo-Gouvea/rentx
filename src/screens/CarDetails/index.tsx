@@ -3,12 +3,7 @@ import { useNavigation, useRoute } from '@react-navigation/native'
 
 import { NavigationProps } from '../Home';
 
-import speedSvg from '../../assets/speed.svg';
-import accelerationSvg from '../../assets/acceleration.svg';
-import forceSvg from '../../assets/force.svg';
-import gasolineSvg from '../../assets/gasoline.svg';
-import exchangeSvg from '../../assets/exchange.svg';
-import peopleSvg from '../../assets/people.svg';
+import { getAccessoryIcon } from '../../utils/getAccessoryIcon';
 
 import {
  Container,
@@ -84,7 +79,7 @@ export function CarDetails({ navigation }: CarDetailsProps){
                         <Accessory 
                             key={accesory.type}
                             name={accesory.name}
-                            icon={speedSvg}
+                            icon={getAccessoryIcon(accesory.type)}
                         />
                     ))
                 }
