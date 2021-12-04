@@ -76,6 +76,11 @@ export function SchedulingDetails({navigation}: SchedulingDetailsProps){
             ...dates,
         ];
 
+        await api.post('schedules_byuser', {
+            user_id: 1,
+            car
+        })
+
         api.put(`/schedules_bycars/${car.id}`, {
             id: car.id,
             unavailable_dates
