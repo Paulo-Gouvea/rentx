@@ -8,7 +8,7 @@ import { NavigationProps } from '../Home';
 import { generateInterval } from '../../components/Calendar/generateInterval';
 import { CarDTO } from '../../dtos/CarDTO'; 
 
-import { StatusBar, Alert } from 'react-native';
+import { StatusBar } from 'react-native';
 import {
  Container,
  Header,
@@ -51,14 +51,10 @@ export function Scheduling({navigation}: SchedulingProps){
     const { car } = route.params as Params;
 
     function HandleSchedulingDetails() {
-        if(!rentalPeriod.startFormatted || !rentalPeriod.endFormatted){
-            Alert.alert('Selecione o intervalo para alugar.')
-        }else {
-            navigation.navigate('SchedulingDetails', {
-                car,
-                dates: Object.keys(markedDates)
-            });
-        }
+        navigation.navigate('SchedulingDetails', {
+            car,
+            dates: Object.keys(markedDates)
+        });
     }
 
     function handleBack() {
@@ -140,6 +136,7 @@ export function Scheduling({navigation}: SchedulingProps){
             <Button 
                 title="Confirmar"
                 onPress={HandleSchedulingDetails}
+                enabled={!!rentalPeriod.startFormatted}
             />
         </Footer>
     </Container>
