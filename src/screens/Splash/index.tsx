@@ -1,5 +1,7 @@
 import React, { useEffect } from 'react';
 
+import { useNavigation } from '@react-navigation/native';
+
 import BrandSvg from '../../assets/brand.svg';
 import LogoSvg from '../../assets/logo.svg';
 
@@ -7,17 +9,22 @@ import Animated, {
    useSharedValue,
    useAnimatedStyle,
    withTiming,
-   Easing,
    interpolate,
-   Extrapolate
+   Extrapolate,
+   runOnJS,
 } from 'react-native-reanimated';
 
 import {
  Container
 } from './styles';
 
-export function Splash(){
+import { NavigationProps } from '../Home';
+
+interface SplashScreenProps extends NavigationProps {}
+
+export function Splash({ navigation }: SplashScreenProps){
    const splashAnimation = useSharedValue(0);
+   navigation = useNavigation();
 
    const brandStyle = useAnimatedStyle(() => {
       return {
@@ -55,10 +62,18 @@ export function Splash(){
       }
    });
 
+   function startApp(){
+      navigation.navigate("Home");
+   }
+
    useEffect(() => {
       splashAnimation.value = withTiming(
          50, 
-         { duration: 1000 }
+         { duration: 1000 },
+         () => {
+            'worket'
+            runOnJS(startApp)();
+         }
       )
    }, []);
 
