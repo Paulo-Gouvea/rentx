@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { StatusBar, StyleSheet } from 'react-native';
+import { StatusBar, StyleSheet, BackHandler } from 'react-native';
 
 import { api } from '../../services/api';
 import { useNavigation } from '@react-navigation/native'
@@ -96,6 +96,12 @@ export function Home({ navigation }: HomeProps){
         fetchCars();
     }, []);
 
+    useEffect(() => {
+        BackHandler.addEventListener('hardwareBackPress', () => {
+            return true;
+        })
+    }, []);
+
    return (
     <Container>
         <StatusBar 
@@ -109,9 +115,12 @@ export function Home({ navigation }: HomeProps){
                     width={RFValue(108)}
                     height={RFValue(12)}
                 />
-                <TotalCars>
-                { `Total de ${cars.length} carros` }
-                </TotalCars>
+                {
+                    !loading &&
+                    <TotalCars>
+                    { `Total de ${cars.length} carros` }
+                    </TotalCars>
+                }
             </HeaderContent>
         </Header>
 
