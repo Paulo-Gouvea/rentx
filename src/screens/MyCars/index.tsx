@@ -12,7 +12,7 @@ import { api } from '../../services/api';
 
 import { BackButton } from '../../components/BackButton';
 import { Car } from '../../components/Car';
-import { Load } from '../../components/Load';
+import { LoadAnimation } from '../../components/LoadAnimation';
 
 import {
  Container,
@@ -93,7 +93,7 @@ export function MyCars({ navigation }: MyCarsProps){
       {
          loading 
          ?
-         <Load />
+         <LoadAnimation />
          :
          <Content>
             <Appointments>
