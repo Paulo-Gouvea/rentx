@@ -7,11 +7,13 @@ import {
  SubTitle,
  Title,
  Footer,
+ Form,
 } from './styles';
 
 import { useTheme } from 'styled-components';
 
 import { Button } from '../../components/Button';
+import { Input } from '../../components/Input';
 
 export function SignIn(){
    const theme = useTheme();
@@ -32,6 +34,12 @@ export function SignIn(){
                 Faça seu login para começar {'\n'}uma experiência incrivel.
             </SubTitle>
         </Header>
+
+        <Form>
+            <Input 
+                iconName='mail'
+            />
+        </Form>
 
         <Footer>
             <Button 
