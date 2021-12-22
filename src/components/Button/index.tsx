@@ -13,6 +13,7 @@ interface Props {
     onPress: () => void;
     enabled?: boolean;
     loading?: boolean;
+    light?: boolean;
 }
 
 export function Button({
@@ -20,7 +21,8 @@ export function Button({
     color,
     onPress,
     enabled = true,
-    loading = false
+    loading = false,
+    light = false,
 }: Props){
     const theme = useTheme();
 
@@ -36,7 +38,7 @@ export function Button({
             ? 
             <ActivityIndicator color={theme.colors.shape} />
             :
-            <Title>
+            <Title light={light}>
                 {title}
             </Title>
         }
