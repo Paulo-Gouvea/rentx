@@ -1,5 +1,10 @@
 import React from 'react';
-import { StatusBar } from 'react-native';
+import { 
+    StatusBar,
+    KeyboardAvoidingView, 
+    TouchableWithoutFeedback,
+    Keyboard, 
+} from 'react-native';
 
 import {
  Container,
@@ -20,53 +25,57 @@ export function SignIn(){
    const theme = useTheme();
    
     return (
-    <Container>
-        <StatusBar
-            translucent
-            barStyle='dark-content'
-            backgroundColor='transparent'
-        />
+        <KeyboardAvoidingView behavior='position' enabled >
+            <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+                <Container>
+                    <StatusBar
+                        translucent
+                        barStyle='dark-content'
+                        backgroundColor='transparent'
+                    />
 
-        <Header>
-            <Title>
-                Estamos {'\n'}quase lá.
-            </Title>
-            <SubTitle>
-                Faça seu login para começar {'\n'}uma experiência incrivel.
-            </SubTitle>
-        </Header>
+                    <Header>
+                        <Title>
+                            Estamos {'\n'}quase lá.
+                        </Title>
+                        <SubTitle>
+                            Faça seu login para começar {'\n'}uma experiência incrivel.
+                        </SubTitle>
+                    </Header>
 
-        <Form>
-            <Input 
-                iconName='mail'
-                placeholder='E-mail'
-                keyboardType='email-address'
-                autoCorrect={false}
-                autoCapitalize='none'
-            />
+                    <Form>
+                        <Input 
+                            iconName='mail'
+                            placeholder='E-mail'
+                            keyboardType='email-address'
+                            autoCorrect={false}
+                            autoCapitalize='none'
+                        />
 
-            <PasswordInput 
-                iconName='lock'
-                placeholder='Senha'
-            />
-        </Form>
+                        <PasswordInput 
+                            iconName='lock'
+                            placeholder='Senha'
+                        />
+                    </Form>
 
-        <Footer>
-            <Button 
-                title='Login'
-                onPress={() => {}}
-                enabled={false}
-                loading={false}
-            />
-            <Button 
-                title='Criar conta gratuita'
-                light
-                onPress={() => {}}
-                enabled={false}
-                loading={false}
-                color={theme.colors.background_secondary}
-            />
-        </Footer>
-    </Container>
+                    <Footer>
+                        <Button 
+                            title='Login'
+                            onPress={() => {}}
+                            enabled={false}
+                            loading={false}
+                        />
+                        <Button 
+                            title='Criar conta gratuita'
+                            light
+                            onPress={() => {}}
+                            enabled={false}
+                            loading={false}
+                            color={theme.colors.background_secondary}
+                        />
+                    </Footer>
+                </Container>
+            </TouchableWithoutFeedback>
+        </KeyboardAvoidingView>
    );
 }
