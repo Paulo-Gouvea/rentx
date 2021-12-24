@@ -8,6 +8,9 @@ import {
 } from 'react-native';
 import * as Yup from 'yup';
 
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { useNavigation } from '@react-navigation/native';
+
 import {
  Container,
  Header,
@@ -23,11 +26,16 @@ import { Button } from '../../components/Button';
 import { Input } from '../../components/Input';
 import { PasswordInput } from '../../components/PasswordInput';
 
-export function SignIn(){
+interface SignInProps {
+    navigation: NativeStackNavigationProp<any, any>
+}
+
+export function SignIn({ navigation }: SignInProps){
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
 
    const theme = useTheme();
+   navigation = useNavigation();
 
    async function handleSignIn(){
         try {
@@ -51,6 +59,10 @@ export function SignIn(){
                 )
             }
         }
+   }
+
+   function handleNewAccount(){
+        navigation.navigate("SignUpFirstStep");
    }
    
     return (
@@ -101,8 +113,8 @@ export function SignIn(){
                         <Button 
                             title='Criar conta gratuita'
                             light
-                            onPress={() => {}}
-                            enabled={false}
+                            onPress={handleNewAccount}
+                            enabled={true}
                             loading={false}
                             color={theme.colors.background_secondary}
                         />
