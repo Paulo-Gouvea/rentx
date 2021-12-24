@@ -1,12 +1,13 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
    KeyboardAvoidingView,
    TouchableWithoutFeedback,
    Keyboard,
+   Alert,
 } from 'react-native';
 
 import { useTheme } from 'styled-components';
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation, useRoute } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 
 import {
@@ -24,16 +25,42 @@ import { Bullet } from '../../../components/Bullet';
 import { PasswordInput } from '../../../components/PasswordInput';
 import { Button } from '../../../components/Button';
 
+interface Params {
+   user: {
+      name: string,
+      email: string,
+      driverLicense: string,
+   }
+}
+
 interface SignUpSecondStepProps {
    navigation: NativeStackNavigationProp<any, any>;
 }
 
 export function SignUpSecondStep({navigation}: SignUpSecondStepProps){
+   const [password, setPassword] = useState(''); 
+   const [passwordConfirm, setPasswordConfirm] = useState('');   
    const theme = useTheme();
    navigation = useNavigation();
+   const route = useRoute();
+   const { user } = route.params as Params;
 
    function handleGoBack(){
       navigation.goBack();
+   }
+
+   function handleRegister(){
+      if(!password || !passwordConfirm){
+         return Alert.alert('Informe a senha e a confirmação.')
+      }
+
+      if(password != passwordConfirm){
+         return Alert.alert('As senhas não são iguais');
+      }
+
+      //Enviar para a API e cadastrar.
+
+      
    }
 
    return (
@@ -43,8 +70,8 @@ export function SignUpSecondStep({navigation}: SignUpSecondStepProps){
                <Header>
                   <BackButton onPress={handleGoBack}/>
                   <Steps>
-                     <Bullet active />
                      <Bullet />
+                     <Bullet active />
                   </Steps>
                </Header>
 
@@ -61,11 +88,15 @@ export function SignUpSecondStep({navigation}: SignUpSecondStepProps){
                   <PasswordInput
                      iconName='lock'
                      placeholder='Senha'
+                     onChangeText={setPassword}
+                     value={password}
                   />
 
                   <PasswordInput
                      iconName='lock'
                      placeholder='Repetir senha'
+                     onChangeText={setPasswordConfirm}
+                     value={passwordConfirm}
                   />
 
                </Form>
@@ -73,6 +104,7 @@ export function SignUpSecondStep({navigation}: SignUpSecondStepProps){
                <Button 
                   title="Cadastrar"
                   color={theme.colors.success}
+                  onPress={handleRegister}
                />
 
             </Container>

@@ -40,11 +40,11 @@ export function SignIn({ navigation }: SignInProps){
    async function handleSignIn(){
         try {
             const schema = Yup.object().shape({
+                password: Yup.string()
+                .required('A senha é obrigatória'),
                 email: Yup.string()
                  .required('E-mail obrigatório')
-                 .email('Digite um e-mail válido'),
-                password: Yup.string()
-                 .required('A senha é obrigatória')
+                 .email('Digite um e-mail válido')
             });
             
             await schema.validate({ email, password });
