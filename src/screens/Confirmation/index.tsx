@@ -1,5 +1,5 @@
 import React from 'react';
-import { useNavigation } from '@react-navigation/native'
+import { useNavigation, useRoute } from '@react-navigation/native'
 
 import { NavigationProps } from '../Home';
 
@@ -18,14 +18,22 @@ import {
  Footer,
 } from './styles';
 
+interface Params {
+    title: string;
+    message: string;
+    nextScreenRoute: string;
+}
+
 interface SchedulingCompleteProps extends NavigationProps {}
 
-export function SchedulingComplete({navigation}: SchedulingCompleteProps){
+export function Confirmation({navigation}: SchedulingCompleteProps){
     const { width } = useWindowDimensions();
     navigation = useNavigation();
+    const routes = useRoute();
+    const { title, message, nextScreenRoute } = routes.params as Params;
 
-    function handleHome() {
-        navigation.navigate('Home');
+    function handleNextScreen() {
+        navigation.navigate(nextScreenRoute);
     }
 
    return (
@@ -39,19 +47,15 @@ export function SchedulingComplete({navigation}: SchedulingCompleteProps){
 
         <Content>
             <DoneSvg width={80} height={80} />
-            <Title>Carro alugado!</Title>
+            <Title>{title}</Title>
 
-            <Message>
-                Agora você só precisa ir {'\n'}
-                até a concessionária da RENTX {'\n'}
-                pegar o seu automóvel.
-            </Message>
+            <Message>{message}</Message>
         </Content>
 
         <Footer>
             <ConfirmButton
                 title="OK"
-                onPress={handleHome}
+                onPress={handleNextScreen}
             />
         </Footer>
 

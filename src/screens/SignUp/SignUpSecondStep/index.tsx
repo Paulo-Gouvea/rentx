@@ -59,7 +59,11 @@ export function SignUpSecondStep({navigation}: SignUpSecondStepProps){
       }
 
       //Enviar para a API e cadastrar.
-
+      navigation.navigate('Confirmation', {
+         nextScreenRoute: 'SignIn',
+         title: 'Conta Criada!',
+         message: `Agora é só fazer login\ne aproveitar.`
+      })
       
    }
 
