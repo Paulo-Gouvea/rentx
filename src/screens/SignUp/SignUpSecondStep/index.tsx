@@ -9,6 +9,7 @@ import {
 import { useTheme } from 'styled-components';
 import { useNavigation, useRoute } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { api } from '../../../services/api';
 
 import {
  Container,
@@ -49,7 +50,7 @@ export function SignUpSecondStep({navigation}: SignUpSecondStepProps){
       navigation.goBack();
    }
 
-   function handleRegister(){
+   async function handleRegister(){
       if(!password || !passwordConfirm){
          return Alert.alert('Informe a senha e a confirmação.')
       }
@@ -58,13 +59,22 @@ export function SignUpSecondStep({navigation}: SignUpSecondStepProps){
          return Alert.alert('As senhas não são iguais');
       }
 
-      //Enviar para a API e cadastrar.
-      navigation.navigate('Confirmation', {
-         nextScreenRoute: 'SignIn',
-         title: 'Conta Criada!',
-         message: `Agora é só fazer login\ne aproveitar.`
+      await api.post('/users', {
+         name: user.name,
+         email: user.email,
+         driver_license: user.driverLicense,
+         password
       })
-      
+      .then(() => {
+         navigation.navigate('Confirmation', {
+            nextScreenRoute: 'SignIn',
+            title: 'Conta Criada!',
+            message: `Agora é só fazer login\ne aproveitar.`
+         });
+      })
+      .catch(() => {
+         Alert.alert('Opa', 'Não foi possível cadastrar');
+      });
    }
 
    return (
