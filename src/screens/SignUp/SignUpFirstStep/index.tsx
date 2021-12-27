@@ -9,7 +9,6 @@ import * as Yup from 'yup';
 
 import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
-import { useAuth } from '../../../hooks/auth';
 
 import {
  Container,
@@ -36,8 +35,6 @@ export function SignUpFirstStep({navigation}: SignUpFirstStepProps){
    const [driverLicense, setDriverLicense] = useState('');
 
    navigation = useNavigation();
-   const { user } = useAuth();
-   console.log(user);
 
    function handleGoBack(){
       navigation.goBack();
