@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { 
     StatusBar,
     KeyboardAvoidingView, 
@@ -26,6 +26,8 @@ import { useAuth } from '../../hooks/auth';
 import { Button } from '../../components/Button';
 import { Input } from '../../components/Input';
 import { PasswordInput } from '../../components/PasswordInput';
+
+import { database } from '../../database';
 
 interface SignInProps {
     navigation: NativeStackNavigationProp<any, any>
@@ -69,6 +71,17 @@ export function SignIn({ navigation }: SignInProps){
    function handleNewAccount(){
         navigation.navigate("SignUpFirstStep");
    }
+
+   useEffect(() => {
+    async function loadData(){
+        const userCollection = database.get('users');
+        const users = await userCollection.query().fetch();
+        console.log("tabela de usuarios:")
+        console.log(users)
+    }
+
+    loadData();
+   }, []);
    
     return (
         <KeyboardAvoidingView behavior='position' enabled >
