@@ -51,7 +51,6 @@ export function SignIn({ navigation }: SignInProps){
             });
             
             await schema.validate({ email, password });
-            Alert.alert('Tudo certo!');
 
             signIn({ email, password });
         } catch (error) {

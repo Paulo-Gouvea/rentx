@@ -4,6 +4,7 @@ import {
     TouchableWithoutFeedback,
     Keyboard,
 } from 'react-native';
+import * as ImagePicker from 'expo-image-picker';
 import { Feather } from '@expo/vector-icons';
 
 import { useTheme } from 'styled-components';
@@ -38,11 +39,15 @@ interface ProfileProps {
 }
 
 export function Profile({ navigation }: ProfileProps ){
+    const { user } = useAuth();
+
+    const [name, setName] = useState(user.name);
+    const [driverLicense, setDriverLicense] = useState(user.driver_license);
+    const [avatar, setAvatar] = useState(user.avatar);
     const [option, setOption] = useState<'dataEdit' | 'passwordEdit'>('dataEdit');
 
     const theme = useTheme();
     navigation = useNavigation();
-    const { user } = useAuth();
 
     function handleBack(){
         navigation.goBack();
@@ -54,6 +59,23 @@ export function Profile({ navigation }: ProfileProps ){
 
     function handleOptionChange(optionSelected: 'dataEdit' | 'passwordEdit') {
         setOption(optionSelected);
+    }
+
+    async function handleAvatarSelect(){
+        const result = await ImagePicker.launchImageLibraryAsync({
+            mediaTypes: ImagePicker.MediaTypeOptions.Images,
+            allowsEditing: true,
+            aspect: [4, 4],
+            quality: 1,
+        });
+
+        if(result.cancelled){
+            return;
+        }
+
+        if(result.uri){
+            setAvatar(result.uri);
+        }
     }
 
    return (
@@ -77,8 +99,8 @@ export function Profile({ navigation }: ProfileProps ){
                         </HeaderTop>
 
                         <PhotoContainer>
-                            <Photo source={{ uri: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQwj2xHGl0OAT82Pl1zsWF_5ebUHShhceZmGA&usqp=CAU' }} />
-                            <PhotoButton onPress={() => {}}>
+                            { !!avatar && <Photo source={{ uri: avatar }} /> }
+                            <PhotoButton onPress={handleAvatarSelect}>
                                 <Feather
                                     name="camera"
                                     size={24}
@@ -113,6 +135,7 @@ export function Profile({ navigation }: ProfileProps ){
                                     placeholder="Nome"
                                     autoCorrect={false}
                                     defaultValue={user.name}
+                                    onChangeText={setName}
                                 />
                                 <Input 
                                     iconName="mail"
@@ -124,6 +147,7 @@ export function Profile({ navigation }: ProfileProps ){
                                     placeholder="CNH"
                                     keyboardType='numeric'
                                     defaultValue={user.driver_license}
+                                    onChangeText={setDriverLicense}
                                 />
                             </Section>
                             :
