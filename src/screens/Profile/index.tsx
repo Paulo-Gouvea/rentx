@@ -39,7 +39,7 @@ interface ProfileProps {
 }
 
 export function Profile({ navigation }: ProfileProps ){
-    const { user } = useAuth();
+    const { user, signOut } = useAuth();
 
     const [name, setName] = useState(user.name);
     const [driverLicense, setDriverLicense] = useState(user.driver_license);
@@ -51,10 +51,6 @@ export function Profile({ navigation }: ProfileProps ){
 
     function handleBack(){
         navigation.goBack();
-    }
-
-    function handleSignOut(){
-
     }
 
     function handleOptionChange(optionSelected: 'dataEdit' | 'passwordEdit') {
@@ -89,7 +85,7 @@ export function Profile({ navigation }: ProfileProps ){
                                 onPress={ handleBack }
                             />
                             <HeaderTitle>Editar Perfil</HeaderTitle>
-                            <LogoutButton onPress={handleSignOut} >
+                            <LogoutButton onPress={signOut} >
                                 <Feather 
                                     name="power" 
                                     size={24} 
