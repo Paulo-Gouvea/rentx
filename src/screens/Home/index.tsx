@@ -1,17 +1,21 @@
 import React, { useEffect, useState } from 'react';
-import { StatusBar, Alert } from 'react-native';
+import { StatusBar } from 'react-native';
 
 import { api } from '../../services/api';
 import { useNavigation } from '@react-navigation/native';
 import { RFValue } from 'react-native-responsive-fontsize';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { useNetInfo } from '@react-native-community/netinfo';
+import { synchronize } from '@nozbe/watermelondb/sync';
+
+import { database } from '../../database';
 
 import { CarDTO } from '../../dtos/CarDTO';
 
 import Logo from '../../assets/logo.svg';
 
 import { Car } from '../../components/Car';
+import { Car as ModelCar } from '../../database/model/Car';
 import { LoadAnimation } from '../../components/LoadAnimation';
 
 import {
@@ -29,7 +33,7 @@ export interface NavigationProps {
 interface HomeProps extends NavigationProps {}
 
 export function Home({ navigation }: HomeProps){
-    const [cars, setCars] = useState<CarDTO[]>([]);
+    const [cars, setCars] = useState<ModelCar[]>([]);
     const [loading, setLoading] = useState(true);
     navigation = useNavigation();
 
@@ -38,6 +42,24 @@ export function Home({ navigation }: HomeProps){
     function handleCarDetails(car: CarDTO) {
         navigation.navigate('CarDetails', { car });
     }
+
+    async function offlineSynchronize(){
+        await synchronize({
+          database,
+          pullChanges: async ({ lastPulledAt }) => {
+            const response = await api
+            .get(`cars/sync/pull?lastPulledVersion=${lastPulledAt || 0}`);
+            
+            const { changes, latestVersion } = response.data;
+
+            return { changes, timestamp: latestVersion }
+          },
+          pushChanges: async ({ changes }) => {
+            const user = changes.users;
+            await api.post('/users/sync', user).catch(console.log);
+          },
+        });
+      }
 
     useEffect(()=> {
         let isMounted = true;
@@ -64,14 +86,10 @@ export function Home({ navigation }: HomeProps){
     }, []);
 
     useEffect(() => {
-        if(netInfo.isConnected){
-            Alert.alert('Você está on-line');
-        }else{
-            Alert.alert('Você está off-line');
+        if(netInfo.isConnected === true){
+          offlineSynchronize();
         }
-
-        
-    }, [netInfo.isConnected])
+      },[netInfo.isConnected])
 
    return (
     <Container>
