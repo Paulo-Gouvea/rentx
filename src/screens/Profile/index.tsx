@@ -15,6 +15,7 @@ import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 
 import { useBottomTabBarHeight } from '@react-navigation/bottom-tabs';
 import { useAuth } from '../../hooks/auth';
+import { useNetInfo } from '@react-native-community/netinfo';
 
 import {
  Container,
@@ -51,13 +52,18 @@ export function Profile({ navigation }: ProfileProps ){
 
     const theme = useTheme();
     navigation = useNavigation();
+    const netInfo = useNetInfo();
 
     function handleBack(){
         navigation.goBack();
     }
 
     function handleOptionChange(optionSelected: 'dataEdit' | 'passwordEdit') {
-        setOption(optionSelected);
+        if(netInfo.isConnected === false && optionSelected === 'passwordEdit'){
+            Alert.alert('Você está Offline', 'Para mudar a senha, conecte-se a Internet!');
+        }else {
+            setOption(optionSelected);
+        }
     }
 
     async function handleAvatarSelect(){

@@ -17,6 +17,8 @@ import {
  CarImage,
 } from './styles';
 
+import { useNetInfo } from '@react-native-community/netinfo';
+
 interface Props extends RectButtonProps {
    data: ModelCar;
 }
@@ -26,6 +28,7 @@ export function Car({
    ...rest
 }: Props){
    const MotorIcon = getAccessoryIcon(data.fuel_type);
+   const netInfo = useNetInfo();
 
    return (
     <Container
@@ -38,8 +41,12 @@ export function Car({
           <About>
              <Rent>
                 <Period>{data.period}</Period>
-                <Price>{`R$ ${data.price}`}</Price>
-             </Rent>
+                {
+                   netInfo.isConnected === true ?
+                  <Price>{`R$ ${data.price}`}</Price> :
+                  <Price>...</Price>
+                }
+            </Rent>
 
              <Type>
                <MotorIcon />
