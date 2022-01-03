@@ -112,6 +112,7 @@ export function Profile({ navigation }: ProfileProps ){
                 Alert.alert("Opa", error.message);
             }else {
                 Alert.alert("Não foi possível atualizar o perfil");
+                console.log(error);
             }
         }
     }
